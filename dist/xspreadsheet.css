@@ -243,6 +243,13 @@ body {
   background: rgba(75, 137, 255, 0.1);
   z-index: 5;
 }
+
+.x-spreadsheet-selector, .x-spreadsheet-selector::after .x-spreadsheet-selector::before,
+.x-spreadsheet-selector-area, .x-spreadsheet-selector-area::after, .x-spreadsheet-selector-area::before {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+
 .x-spreadsheet-selector .x-spreadsheet-selector-clipboard,
 .x-spreadsheet-selector .x-spreadsheet-selector-autofill {
   position: absolute;
