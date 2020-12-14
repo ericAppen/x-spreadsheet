@@ -12,6 +12,7 @@ localeFiles.forEach((file) => {
 });
 
 module.exports = {
+  mode: 'development',
   entry,
   output: {
     filename: '[name].js',
