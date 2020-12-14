@@ -790,9 +790,9 @@ export default class DataProxy {
 
   // type: row | column
   insert(type, n = 1) {
-    // const { row, col } = this.settings;
-    // if (type === 'row' && row.maxLen !== -1 && this.rows.len === row.maxLen) return;
-    // if (type === 'col' && col.maxLen !== -1 && this.cols.len === col.maxLen) return;
+    const { row, col } = this.settings;
+    if (type === 'row' && row.maxLen !== -1 && this.rows.len === row.maxLen) return;
+    if (type === 'col' && col.maxLen !== -1 && this.cols.len === col.maxLen) return;
     this.changeData(() => {
       const { sri, sci } = this.selector.range;
       const { rows, merges, cols } = this;
