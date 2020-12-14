@@ -80,12 +80,14 @@ const defaultSettings = {
   row: {
     len: 100,
     height: 25,
+    maxLen: -1,
   },
   col: {
     len: 26,
     width: 100,
     indexWidth: 60,
     minWidth: 60,
+    maxLen: -1,
   },
   style: {
     bgcolor: '#ffffff',
@@ -788,6 +790,9 @@ export default class DataProxy {
 
   // type: row | column
   insert(type, n = 1) {
+    const { row, col } = this.settings;
+    if (type === 'row' && row.maxLen !== -1 && this.rows.len === row.maxLen) return;
+    if (type === 'col' && col.maxLen !== -1 && this.cols.len === col.maxLen) return;
     this.changeData(() => {
       const { sri, sci } = this.selector.range;
       const { rows, merges, cols } = this;

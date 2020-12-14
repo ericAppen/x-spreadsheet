@@ -11,12 +11,14 @@ declare module 'x-data-spreadsheet' {
     row?: {
       len: number;
       height: number;
+      maxLen: number;
     };
     col?: {
       len: number;
       width: number;
       indexWidth: number;
       minWidth: number;
+      maxLen: number;
     };
     style?: {
       bgcolor: string;
