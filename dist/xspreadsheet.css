@@ -272,6 +272,8 @@ body {
   bottom: -5px;
   border: 2px solid #ffffff;
   background: #4b89ff;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
 }
 .x-spreadsheet-editor {
   z-index: 20;
