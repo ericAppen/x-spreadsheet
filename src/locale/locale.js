@@ -23,7 +23,7 @@ function translate(key, messages) {
       for (let i = 0; i < keys.length; i += 1) {
         const property = keys[i];
         const value = message[property];
-
+        console.log(value)
         // If value doesn't exist, try next language
         if (!value) break;
 
