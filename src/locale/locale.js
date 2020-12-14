@@ -18,7 +18,7 @@ function translate(key, messages) {
 
       // Splits the key at '.' except where escaped as '\.'
       const keys = key.match(/(?:\\.|[^.])+/g);
-
+      console.log(keys)
       for (let i = 0; i < keys.length; i += 1) {
         const property = keys[i];
         const value = message[property];
@@ -39,6 +39,7 @@ function translate(key, messages) {
 
 function t(key) {
   let v = translate(key, $messages);
+  console.log(v)
   if (!v && window && window.x_spreadsheet && window.x_spreadsheet.$messages) {
     v = translate(key, window.x_spreadsheet.$messages);
   }
@@ -66,6 +67,7 @@ function locale(lang, message, clearLangList=false) {
 
   if (message) {
     $messages[lang] = message;
+    console.log($messages)
   }
 }
 
