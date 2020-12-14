@@ -12,7 +12,7 @@ function translate(key, messages) {
     // Return the translation from the first language in the languages array
     // that has a value for the provided key.
     for (const lang of $languages) {
-      console.log(lang, !message[lang]);
+      console.log(lang, !messages[lang]);
       if (!messages[lang]) break;
 
       let message = messages[lang];
