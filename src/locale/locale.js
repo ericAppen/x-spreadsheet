@@ -12,23 +12,19 @@ function translate(key, messages) {
     // Return the translation from the first language in the languages array
     // that has a value for the provided key.
     for (const lang of $languages) {
-      console.log(lang, !messages[lang]);
       if (!messages[lang]) break;
 
       let message = messages[lang];
 
       // Splits the key at '.' except where escaped as '\.'
       const keys = key.match(/(?:\\.|[^.])+/g);
-      console.log(keys)
       for (let i = 0; i < keys.length; i += 1) {
         const property = keys[i];
         const value = message[property];
-        console.log(value)
         // If value doesn't exist, try next language
         if (!value) break;
 
         if (i === keys.length - 1) return value;
-
         // Move down to the next level of the messages object
         message = value;
       }
@@ -68,7 +64,6 @@ function locale(lang, message, clearLangList=false) {
 
   if (message) {
     $messages[lang] = message;
-    console.log($messages)
   }
 }
 
