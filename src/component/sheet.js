@@ -166,12 +166,7 @@ function overlayerMousemove(evt) {
   }
 }
 
-let scrollThreshold = 15;
 function overlayerMousescroll(evt) {
-  scrollThreshold -= 1;
-  if (scrollThreshold > 0) return;
-  scrollThreshold = 15;
-
   const { verticalScrollbar, horizontalScrollbar, data } = this;
   const { top } = verticalScrollbar.scroll();
   const { left } = horizontalScrollbar.scroll();
@@ -231,7 +226,6 @@ function overlayerMousescroll(evt) {
   const tempY = Math.abs(deltaY);
   const tempX = Math.abs(deltaX);
   const temp = Math.max(tempY, tempX);
-  // console.log('event:', evt);
   // detail for windows/mac firefox vertical scroll
   if (/Firefox/i.test(window.navigator.userAgent)) throttle(moveY(evt.detail), 50);
   if (temp === tempX) throttle(moveX(deltaX), 50);
@@ -693,7 +687,6 @@ function sheetInitEvents() {
   });
 
   bind(window, 'paste', (evt) => {
-    if(!this.focusing) return;
     paste.call(this, 'all', evt);
     evt.preventDefault();
   });

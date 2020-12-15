@@ -11,14 +11,12 @@ declare module 'x-data-spreadsheet' {
     row?: {
       len: number;
       height: number;
-      maxLen: number;
     };
     col?: {
       len: number;
       width: number;
       indexWidth: number;
       minWidth: number;
-      maxLen: number;
     };
     style?: {
       bgcolor: string;
@@ -47,18 +45,18 @@ declare module 'x-data-spreadsheet' {
     (
       envt: CELL_SELECTED,
       callback: (cell: Cell, rowIndex: number, colIndex: number) => void
-    ): void;
+    );
     (
       envt: CELLS_SELECTED,
       callback: (
         cell: Cell,
         parameters: { sri: number; sci: number; eri: number; eci: number }
       ) => void
-    ): void;
+    );
     (
       evnt: CELL_EDITED,
       callback: (text: string, rowIndex: number, colIndex: number) => void
-    ): void;
+    );
   }
 
   export interface ColProperties {
@@ -182,13 +180,13 @@ declare module 'x-data-spreadsheet' {
      * bind handler to change event, including data change and user actions
      * @param callback
      */
-    change(callback: (json: Record<string, any>) => void): void;
+    change(callback: (json: Record<string, any>) => void);
     /**
      * set locale
      * @param lang
      * @param message
      */
-    locale(lang: string, message: string): void;
+    locale(lang: string, message: string);
   }
   global {
     interface Window {
