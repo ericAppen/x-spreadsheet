@@ -767,8 +767,21 @@ export default class DataProxy {
     if (sort) {
       console.log("sort")
       fary.sort((a, b) => {
-        if (sort.order === 'asc') return a[1] - b[1];
-        if (sort.order === 'desc') return b[1] - a[1];
+        let typeA = isNaN(Number(a[1])) ? 'string' : 'number';
+        let typeB = isNaN(Number(b[1])) ? 'string' : 'number';
+        console.log(typeA, typeB)
+        if (sort.order === 'asc') {
+          if (typeA === 'number' && typeB === 'number') return a[1] - b[1];
+          else if (typeA === 'string' && typeB === 'string') return a[1] > b[1] ? 1 : -1;
+          else if (typeA === "number") return -1;
+          else return 1;
+        }
+        if (sort.order === 'desc') {
+          if (typeA === 'number' && typeB === 'number') return b[1] - a[1];
+          else if (typeA === 'string' && typeB === 'string') return b[1] > a[1] ? 1 : -1;
+          else if (typeA === "number") return 1;
+          else return -11;
+        }
         return 0;
       });
     }
