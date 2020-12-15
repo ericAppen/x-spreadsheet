@@ -66,8 +66,10 @@ export default class AutoFilter {
     if (ref != null) {
       this.ref = ref;
       this.fitlers = filters.map(it => new Filter(it.ci, it.operator, it.value));
+      console.log(sort)
       if (sort) {
         this.sort = new Sort(sort.ci, sort.order);
+        console.log(this.sort)
       }
     }
   }
@@ -122,7 +124,7 @@ export default class AutoFilter {
     // const ary = [];
     // let lastri = 0;
     const rset = new Set();
-    const fset = new Set();
+    const fset = new Map();
     if (this.active()) {
       const { sri, eri } = this.range();
       const { filters } = this;
@@ -135,7 +137,7 @@ export default class AutoFilter {
             rset.add(ri);
             break;
           } else {
-            fset.add(ri);
+            fset.set(ri, ctext);
           }
         }
       }

@@ -572,7 +572,7 @@ export default class DataProxy {
         if (vIndex >= 0) {
           filter.value.splice(vIndex, 1, text);
         }
-        // console.log('filter:', filter, oldCell);
+        //console.log('filter:', filter, oldCell);
       }
     }
     // this.resetAutoFilter();
@@ -750,6 +750,7 @@ export default class DataProxy {
 
   setAutoFilter(ci, order, operator, value) {
     const { autoFilter } = this;
+    console.log("set filter")
     autoFilter.addFilter(ci, operator, value);
     autoFilter.setSort(ci, order);
     this.resetAutoFilter();
@@ -762,19 +763,22 @@ export default class DataProxy {
     const { rset, fset } = autoFilter.filteredRows((r, c) => rows.getCell(r, c));
     const fary = Array.from(fset);
     const oldAry = Array.from(fset);
+    console.log(fary, oldAry, rows)
     if (sort) {
+      console.log("sort")
       fary.sort((a, b) => {
-        if (sort.order === 'asc') return a - b;
-        if (sort.order === 'desc') return b - a;
+        if (sort.order === 'asc') return a[1] - b[1];
+        if (sort.order === 'desc') return b[1] - a[1];
         return 0;
       });
     }
+    console.log(fary)
     this.exceptRowSet = rset;
     this.sortedRowMap = new Map();
     this.unsortedRowMap = new Map();
     fary.forEach((it, index) => {
-      this.sortedRowMap.set(oldAry[index], it);
-      this.unsortedRowMap.set(it, oldAry[index]);
+      this.sortedRowMap.set(oldAry[index][0], it[0]);
+      this.unsortedRowMap.set(it[0], oldAry[index][0]);
     });
   }
 
