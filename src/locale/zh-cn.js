@@ -23,6 +23,9 @@ export default {
     autofilter: '自动筛选',
     formula: '函数',
     more: '更多',
+    fullscreen: '全屏',
+    save: '保存',
+    export: '导出'
   },
   contextmenu: {
     copy: '复制',

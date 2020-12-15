@@ -23,6 +23,9 @@ export default {
     autofilter: 'Filter',
     formula: 'Functions',
     more: 'More',
+    fullscreen: "Full screen",
+    save: 'Save',
+    export: 'Export'
   },
   contextmenu: {
     copy: 'Copy',

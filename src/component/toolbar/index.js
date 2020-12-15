@@ -23,10 +23,13 @@ import Undo from './undo';
 import Print from './print';
 import Textwrap from './textwrap';
 import More from './more';
+import FullScreen from './fullscreen';
 
 import { h } from '../element';
 import { cssPrefix } from '../../config';
 import { bind } from '../event';
+import Save from './save';
+import Export from './export';
 
 function buildDivider() {
   return h('div', `${cssPrefix}-toolbar-divider`);
@@ -131,6 +134,12 @@ export default class Toolbar {
         this.formulaEl = new Formula(),
         this.moreEl = new More(),
       ],
+      buildDivider(),
+      [
+        this.fullScreenEl = new FullScreen(),
+        this.saveEl = new Save(),
+        this.exportEl = new Export()
+      ]
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
