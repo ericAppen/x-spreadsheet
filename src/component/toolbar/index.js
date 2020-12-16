@@ -182,7 +182,6 @@ export default class Toolbar {
   }
 
   trigger(type) {
-    console.log(this[`${type}El`])
     this[`${type}El`].click();
   }
 

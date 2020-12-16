@@ -348,6 +348,7 @@ export default class DataProxy {
     this.clipboard = new Clipboard();
     this.autoFilter = new AutoFilter();
     this.change = () => {};
+    this.sortedColArange = [];
     this.exceptRowSet = new Set();
     this.sortedRowMap = new Map();
     this.unsortedRowMap = new Map();
@@ -383,6 +384,10 @@ export default class DataProxy {
       ret.validator = v.validator;
     }
     return ret;
+  }
+
+  historyAdd() {
+    this.history.add(this.getData());
   }
 
   canUndo() {
@@ -557,19 +562,22 @@ export default class DataProxy {
   }
 
   // state: input | finished
-  // state: inputStart | input | finished
   setSelectedCellText(text, state = 'input') {
     const { autoFilter, selector, rows } = this;
+    const [colS, colE] = this.sortedColArange;
     const { ri, ci } = selector;
     let nri = ri;
-    if (this.unsortedRowMap.has(ri)) {
+    if (ci >= colS && ci <= colE && this.unsortedRowMap.has(ri)) {
       nri = this.unsortedRowMap.get(ri);
     }
     const oldCell = rows.getCell(nri, ci);
+    console.log(nri, ci)
     console.log("567")
     if (oldCell && oldCell.editable === false) return;
     console.log("test")
+    
     const oldText = oldCell ? oldCell.text : '';
+    console.log(oldText, text)
     this.setCellText(nri, ci, text, state);
     // replace filter.value
     if (autoFilter.active()) {
@@ -587,8 +595,9 @@ export default class DataProxy {
 
   getSelectedCell() {
     const { ri, ci } = this.selector;
+    const [colS, colE] = this.sortedColArange;
     let nri = ri;
-    if (this.unsortedRowMap.has(ri)) {
+    if (ci >= colS && ci <= colE && this.unsortedRowMap.has(ri)) {
       nri = this.unsortedRowMap.get(ri);
     }
     return this.rows.getCell(nri, ci);
@@ -746,10 +755,12 @@ export default class DataProxy {
     this.changeData(() => {
       if (autoFilter.active()) {
         autoFilter.clear();
+        this.sortedColArange = [];
         this.exceptRowSet = new Set();
         this.sortedRowMap = new Map();
         this.unsortedRowMap = new Map();
       } else {
+        console.log(selector.range)
         autoFilter.ref = selector.range.toString();
       }
     });
@@ -758,6 +769,7 @@ export default class DataProxy {
   setAutoFilter(ci, order, operator, value) {
     const { autoFilter } = this;
     console.log("set filter")
+    this.historyAdd();
     autoFilter.addFilter(ci, operator, value);
     autoFilter.setSort(ci, order);
     this.resetAutoFilter();
@@ -767,16 +779,13 @@ export default class DataProxy {
     const { autoFilter, rows } = this;
     if (!autoFilter.active()) return;
     const { sort } = autoFilter;
-    const { rset, fset } = autoFilter.filteredRows((r, c) => rows.getCell(r, c));
+    const { rset, fset, sci, eci } = autoFilter.filteredRows((r, c) => rows.getCell(r, c));
     const fary = Array.from(fset);
     const oldAry = Array.from(fset);
-    console.log(fary, oldAry, rows)
     if (sort) {
-      console.log("sort")
       fary.sort((a, b) => {
         let typeA = isNaN(Number(a[1])) ? 'string' : 'number';
         let typeB = isNaN(Number(b[1])) ? 'string' : 'number';
-        console.log(typeA, typeB)
         if (sort.order === 'asc') {
           if (typeA === 'number' && typeB === 'number') return a[1] - b[1];
           else if (typeA === 'string' && typeB === 'string') return a[1] > b[1] ? 1 : -1;
@@ -787,13 +796,13 @@ export default class DataProxy {
           if (typeA === 'number' && typeB === 'number') return b[1] - a[1];
           else if (typeA === 'string' && typeB === 'string') return b[1] > a[1] ? 1 : -1;
           else if (typeA === "number") return 1;
-          else return -11;
+          else return -1;
         }
         return 0;
       });
     }
-    console.log(fary)
     this.exceptRowSet = rset;
+    this.sortedColArange = [sci, eci];
     this.sortedRowMap = new Map();
     this.unsortedRowMap = new Map();
     fary.forEach((it, index) => {
@@ -973,7 +982,7 @@ export default class DataProxy {
       this.change(this.getData());
     } else {
       if (!inputState) {
-        history.add(this.getData());
+        this.historyAdd();
         setInputState.call(this, true);
       }
       rows.setCellText(ri, ci, text);
@@ -1164,7 +1173,7 @@ export default class DataProxy {
   }
 
   changeData(cb) {
-    this.history.add(this.getData());
+    this.historyAdd();
     cb();
     this.change(this.getData());
   }

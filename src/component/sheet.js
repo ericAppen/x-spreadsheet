@@ -429,10 +429,11 @@ function editorSetOffset() {
 function editorSet() {
   const { editor, data } = this;
   if (data.settings.mode === 'read') return;
-  if (data.getSelectedCell() && data.getSelectedCell().editable === false) return;
+  let cell = data.getSelectedCell();
+  console.log(cell)
+  if (cell && 'editable' in cell && cell.editable === false) return;
   editorSetOffset.call(this);
-  console.log(data.getSelectedCell(), data.getSelectedValidator())
-  editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
+  editor.setCell(cell, data.getSelectedValidator());
   clearClipboard.call(this);
 }
 
@@ -478,7 +479,6 @@ function colResizerFinished(cRect, distance) {
 function dataSetCellText(text, state = 'finished') {
   const { data, table } = this;
   // const [ri, ci] = selector.indexes;
-  console.log("481")
   if (data.settings.mode === 'read') return;
   data.setSelectedCellText(text, state);
   const { ri, ci } = data.selector;
@@ -538,6 +538,8 @@ function toolbarChange(type, value) {
     // chart
   } else if (type === 'autofilter') {
     // filter
+    console.log("add filter")
+    data.historyAdd();
     autofilter.call(this);
   } else if (type === 'freeze') {
     if (value) {
@@ -558,7 +560,7 @@ function toolbarChange(type, value) {
 }
 
 function sortFilterChange(ci, order, operator, value) {
-  // console.log('sort:', sortDesc, operator, value);
+  console.log('sort:', ci, order, operator, value);
   this.data.setAutoFilter(ci, order, operator, value);
   sheetReset.call(this);
 }
@@ -653,6 +655,7 @@ function sheetInitEvents() {
   };
   // editor
   editor.change = (state, itext) => {
+    console.log(itext);
     dataSetCellText.call(this, itext, state);
   };
   // modal validation
@@ -680,8 +683,6 @@ function sheetInitEvents() {
       paste.call(this, 'format');
     } else if (type === 'hide') {
       hideRowsOrCols.call(this);
-    } else if (type === 'save') {
-      // TODO: save
     } else {
       insertDeleteRowColumn.call(this, type);
     }
@@ -824,6 +825,7 @@ function sheetInitEvents() {
           evt.preventDefault();
           break;
         case 13: // enter
+          console.log("clear", editor.inputText)
           editor.clear();
           // shift + enter => move up
           // enter => move down
@@ -846,6 +848,7 @@ function sheetInitEvents() {
         || (keyCode >= 96 && keyCode <= 105)
         || evt.key === '='
       ) {
+        console.log("849")
         dataSetCellText.call(this, evt.key, 'input');
         editorSet.call(this);
       } else if (keyCode === 113) {

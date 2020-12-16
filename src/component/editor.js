@@ -60,8 +60,8 @@ function inputEventHandler(evt) {
   // console.log(evt, 'v:', v);
   const { suggest, textlineEl, validator, inputState } = this;
   const { cell } = this;
-  console.log(inputState)
   if (cell !== null) {
+    console.log("not null");
     if (('editable' in cell && cell.editable === true) || (cell.editable === undefined)) {
       this.inputText = v;
       if (validator) {
@@ -85,7 +85,7 @@ function inputEventHandler(evt) {
       evt.target.value = '';
     }
   } else {
-    console.log("cell is null")
+    console.log("null");
     this.inputText = v;
     if (validator) {
       if (validator.type === 'list') {
@@ -178,7 +178,7 @@ export default class Editor {
       .children(
         this.textEl = h('textarea', '')
           .on('copy', evt => console.log(evt))
-          .on('input', evt => inputEventHandler.call(this, evt))
+          .on('input', evt => {console.log("input"); inputEventHandler.call(this, evt)})
           .on('paste.stop', () => {})
           .on('keydown', evt => keydownEventHandler.call(this, evt)),
         this.textlineEl = h('div', 'textline'),

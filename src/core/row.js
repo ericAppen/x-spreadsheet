@@ -109,7 +109,6 @@ class Rows {
     console.log(cell)
     cell.text = text;
     console.log(cell)
-    console.log(this)
   }
 
   // what: all | format | text

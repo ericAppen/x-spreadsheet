@@ -31,7 +31,6 @@ export default class History {
   }
 
   redo(currentd, cb) {
-    console.log(this.redoItems)
     const { undoItems, redoItems } = this;
     if (this.canRedo()) {
       undoItems.push(JSON.stringify(currentd));

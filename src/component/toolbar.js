@@ -114,6 +114,7 @@ function moreResize() {
 
 export default class Toolbar {
   constructor(data, widthFn, isHide = false) {
+    console.log("tet")
     this.data = data;
     this.change = () => {};
     this.widthFn = widthFn;

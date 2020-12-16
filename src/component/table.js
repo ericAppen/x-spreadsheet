@@ -50,10 +50,13 @@ function renderCellBorders(bboxes, translateFunc) {
 */
 
 export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
-  const { sortedRowMap, rows, cols } = data;
+  const { sortedColArange, sortedRowMap, rows, cols } = data;
+  const [colS, colE] = sortedColArange;
   if (rows.isHide(rindex) || cols.isHide(cindex)) return;
+  
   let nrindex = rindex;
-  if (sortedRowMap.has(rindex)) {
+  //console.log(colS, colE, rindex)
+  if (cindex >= colS && cindex <= colE && sortedRowMap.has(rindex)) {
     nrindex = sortedRowMap.get(rindex);
   }
 
@@ -72,6 +75,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     // bboxes.push({ ri: rindex, ci: cindex, box: dbox });
     draw.strokeBorders(dbox);
   }
+  
   draw.rect(dbox, () => {
     // render text
     let cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)));

@@ -65,11 +65,9 @@ export default class AutoFilter {
   setData({ ref, filters, sort }) {
     if (ref != null) {
       this.ref = ref;
-      this.fitlers = filters.map(it => new Filter(it.ci, it.operator, it.value));
-      console.log(sort)
+      this.filters = filters.map(it => new Filter(it.ci, it.operator, it.value));
       if (sort) {
         this.sort = new Sort(sort.ci, sort.order);
-        console.log(this.sort)
       }
     }
   }
@@ -125,8 +123,8 @@ export default class AutoFilter {
     // let lastri = 0;
     const rset = new Set();
     const fset = new Map();
+    const { sri, eri, sci, eci } = this.range();
     if (this.active()) {
-      const { sri, eri } = this.range();
       const { filters } = this;
       for (let ri = sri + 1; ri <= eri; ri += 1) {
         for (let i = 0; i < filters.length; i += 1) {
@@ -142,7 +140,7 @@ export default class AutoFilter {
         }
       }
     }
-    return { rset, fset };
+    return { rset, fset, sci, eci };
   }
 
   items(ci, getCell) {
