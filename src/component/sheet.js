@@ -478,6 +478,7 @@ function colResizerFinished(cRect, distance) {
 function dataSetCellText(text, state = 'finished') {
   const { data, table } = this;
   // const [ri, ci] = selector.indexes;
+  console.log("481")
   if (data.settings.mode === 'read') return;
   data.setSelectedCellText(text, state);
   const { ri, ci } = data.selector;
@@ -677,6 +678,8 @@ function sheetInitEvents() {
       paste.call(this, 'format');
     } else if (type === 'hide') {
       hideRowsOrCols.call(this);
+    } else if (type === 'save') {
+      // TODO: save
     } else {
       insertDeleteRowColumn.call(this, type);
     }
@@ -691,6 +694,7 @@ function sheetInitEvents() {
   });
 
   bind(window, 'paste', (evt) => {
+    console.log("paste")
     paste.call(this, 'all', evt);
     evt.preventDefault();
   });
@@ -721,6 +725,7 @@ function sheetInitEvents() {
           break;
         case 67:
           // ctrl + c
+          console.log("copy")
           copy.call(this);
           evt.preventDefault();
           break;
@@ -771,6 +776,9 @@ function sheetInitEvents() {
         case 73:
           // ctrl + I
           toolbar.trigger('italic');
+          break;
+        case 83:
+          // ctrl + S
           break;
         default:
           break;

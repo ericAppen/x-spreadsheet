@@ -564,7 +564,9 @@ export default class DataProxy {
       nri = this.unsortedRowMap.get(ri);
     }
     const oldCell = rows.getCell(nri, ci);
+    console.log("567")
     if (oldCell && oldCell.editable === false) return;
+    console.log("test")
     const oldText = oldCell ? oldCell.text : '';
     this.setCellText(nri, ci, text, state);
     // replace filter.value
@@ -960,11 +962,13 @@ export default class DataProxy {
     this.inputState = bool;
   }
 
-  // state: inputStart | input | finished
+  // state: input | finished
   setCellText(ri, ci, text, state) {
     const { rows, history, validations, inputState, setInputState } = this;
     if (state === 'finished') {
       setInputState.call(this, false);
+      rows.setCellText(ri, ci, text);
+      this.change(this.getData());
     } else {
       if (!inputState) {
         history.add(this.getData());

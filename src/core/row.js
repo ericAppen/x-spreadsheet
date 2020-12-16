@@ -106,7 +106,10 @@ class Rows {
 
   setCellText(ri, ci, text) {
     const cell = this.getCellOrNew(ri, ci);
+    console.log(cell)
     cell.text = text;
+    console.log(cell)
+    console.log(this)
   }
 
   // what: all | format | text

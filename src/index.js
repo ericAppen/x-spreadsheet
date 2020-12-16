@@ -112,6 +112,10 @@ class Spreadsheet {
     return this;
   }
 
+  addHotKey(keys,fn) {
+    // TODO: add hot key
+  }
+
   static locale(lang, message) {
     locale(lang, message);
   }
