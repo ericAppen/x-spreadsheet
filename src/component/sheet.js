@@ -429,7 +429,9 @@ function editorSetOffset() {
 function editorSet() {
   const { editor, data } = this;
   if (data.settings.mode === 'read') return;
+  if (data.getSelectedCell() && data.getSelectedCell().editable === false) return;
   editorSetOffset.call(this);
+  console.log(data.getSelectedCell(), data.getSelectedValidator())
   editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
   clearClipboard.call(this);
 }
@@ -591,6 +593,7 @@ function sheetInitEvents() {
         }
         evt.stopPropagation();
       } else if (evt.detail === 2) {
+        console.log("activate");
         editorSet.call(this);
       } else {
         overlayerMousedown.call(this, evt);
@@ -606,6 +609,7 @@ function sheetInitEvents() {
     });
 
   selector.inputChange = (v) => {
+    console.log("selector change")
     dataSetCellText.call(this, v, 'input');
     editorSet.call(this);
   };

@@ -22,12 +22,14 @@ export default class History {
   undo(currentd, cb) {
     const { undoItems, redoItems } = this;
     if (this.canUndo()) {
+      console.log(JSON.parse(undoItems[undoItems.length - 1]))
       redoItems.push(JSON.stringify(currentd));
       cb(JSON.parse(undoItems.pop()));
     }
   }
 
   redo(currentd, cb) {
+    console.log(this.redoItems)
     const { undoItems, redoItems } = this;
     if (this.canRedo()) {
       undoItems.push(JSON.stringify(currentd));

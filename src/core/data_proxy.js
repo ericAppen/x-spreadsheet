@@ -349,6 +349,7 @@ export default class DataProxy {
     this.exceptRowSet = new Set();
     this.sortedRowMap = new Map();
     this.unsortedRowMap = new Map();
+    this.inputState = false;
   }
 
   addValidation(mode, ref, validator) {
@@ -554,6 +555,7 @@ export default class DataProxy {
   }
 
   // state: input | finished
+  // state: inputStart | input | finished
   setSelectedCellText(text, state = 'input') {
     const { autoFilter, selector, rows } = this;
     const { ri, ci } = selector;
@@ -562,6 +564,7 @@ export default class DataProxy {
       nri = this.unsortedRowMap.get(ri);
     }
     const oldCell = rows.getCell(nri, ci);
+    if (oldCell && oldCell.editable === false) return;
     const oldText = oldCell ? oldCell.text : '';
     this.setCellText(nri, ci, text, state);
     // replace filter.value
@@ -953,14 +956,20 @@ export default class DataProxy {
     return this.getCellStyleOrDefault(ri, ci);
   }
 
-  // state: input | finished
+  setInputState(bool) {
+    this.inputState = bool;
+  }
+
+  // state: inputStart | input | finished
   setCellText(ri, ci, text, state) {
-    const { rows, history, validations } = this;
+    const { rows, history, validations, inputState, setInputState } = this;
     if (state === 'finished') {
-      rows.setCellText(ri, ci, '');
-      history.add(this.getData());
-      rows.setCellText(ri, ci, text);
+      setInputState.call(this, false);
     } else {
+      if (!inputState) {
+        history.add(this.getData());
+        setInputState.call(this, true);
+      }
       rows.setCellText(ri, ci, text);
       this.change(this.getData());
     }

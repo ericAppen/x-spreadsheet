@@ -58,8 +58,9 @@ function keydownEventHandler(evt) {
 function inputEventHandler(evt) {
   const v = evt.target.value;
   // console.log(evt, 'v:', v);
-  const { suggest, textlineEl, validator } = this;
+  const { suggest, textlineEl, validator, inputState } = this;
   const { cell } = this;
+  console.log(inputState)
   if (cell !== null) {
     if (('editable' in cell && cell.editable === true) || (cell.editable === undefined)) {
       this.inputText = v;
@@ -84,6 +85,7 @@ function inputEventHandler(evt) {
       evt.target.value = '';
     }
   } else {
+    console.log("cell is null")
     this.inputText = v;
     if (validator) {
       if (validator.type === 'list') {
@@ -175,6 +177,7 @@ export default class Editor {
     this.areaEl = h('div', `${cssPrefix}-editor-area`)
       .children(
         this.textEl = h('textarea', '')
+          .on('copy', evt => console.log(evt))
           .on('input', evt => inputEventHandler.call(this, evt))
           .on('paste.stop', () => {})
           .on('keydown', evt => keydownEventHandler.call(this, evt)),
