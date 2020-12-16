@@ -1,13 +1,15 @@
 // import helper from '../helper';
 
 export default class History {
-  constructor() {
+  constructor(historyConfig) {
+    this.maxHistory = historyConfig.maxHistory;
     this.undoItems = [];
     this.redoItems = [];
   }
 
   add(data) {
     this.undoItems.push(JSON.stringify(data));
+    if (this.undoItems.length > this.maxHistory) this.undoItems.shift();
     this.redoItems = [];
   }
 
