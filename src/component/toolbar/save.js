@@ -1,6 +1,6 @@
-import ToggleItem from './toggle_item';
+import IconItem from './icon_item';
 
-export default class Save extends ToggleItem {
+export default class Save extends IconItem {
   constructor() {
     super('save', 'Ctrl+S');
   }

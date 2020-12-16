@@ -38,6 +38,7 @@ declare module 'x-data-spreadsheet' {
   export type CELL_SELECTED = 'cell-selected';
   export type CELLS_SELECTED = 'cells-selected';
   export type CELL_EDITED = 'cell-edited';
+  export type TABLE_SAVE = 'table-save';
 
   export type CellMerge = [number, number];
 
@@ -56,6 +57,10 @@ declare module 'x-data-spreadsheet' {
     (
       evnt: CELL_EDITED,
       callback: (text: string, rowIndex: number, colIndex: number) => void
+    );
+    (
+      envt: TABLE_SAVE,
+      callback: (saveData) => void
     );
   }
 

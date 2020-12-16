@@ -546,6 +546,8 @@ function toolbarChange(type, value) {
     } else {
       this.freeze(0, 0);
     }
+  } else if (type === 'save') {
+    this.save();
   } else {
     data.setSelectedCellAttr(type, value);
     if (type === 'formula' && !data.selector.multiple()) {
@@ -701,7 +703,7 @@ function sheetInitEvents() {
 
   // for selector
   bind(window, 'keydown', (evt) => {
-    if (!this.focusing) return;
+    //if (!this.focusing) return;   // TODO: 需要讨论下
     const keyCode = evt.keyCode || evt.which;
     const {
       key, ctrlKey, shiftKey, metaKey,
@@ -778,7 +780,9 @@ function sheetInitEvents() {
           toolbar.trigger('italic');
           break;
         case 83:
-          // ctrl + S
+          // ctrl + s
+          this.save();
+          evt.preventDefault();
           break;
         default:
           break;
@@ -978,5 +982,9 @@ export default class Sheet {
       left: cols.indexWidth,
       top: rows.height,
     };
+  }
+
+  save() {
+    this.trigger('table-save', this.data.getData());
   }
 }
