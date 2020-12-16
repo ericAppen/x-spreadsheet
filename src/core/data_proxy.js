@@ -105,11 +105,13 @@ const defaultSettings = {
     },
     format: 'normal',
   },
+  history: {
+    maxHistory: 20,
+  },
 };
 
 const toolbarHeight = 41;
 const bottombarHeight = 41;
-
 
 // src: cellRange
 // dst: cellRange
@@ -342,7 +344,7 @@ export default class DataProxy {
     // don't save object
     this.selector = new Selector();
     this.scroll = new Scroll();
-    this.history = new History();
+    this.history = new History(this.settings.history);
     this.clipboard = new Clipboard();
     this.autoFilter = new AutoFilter();
     this.change = () => {};
