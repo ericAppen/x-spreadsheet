@@ -35,7 +35,7 @@
             len: 10,
             2: { width: 200 },
           },
-        }]);
+        }]).on('table-save', data => console.log(data));
       xs.cellText(1,1, "test").reRender();
       // xs.on('cell-selected', (cell, ri, ci) => {
       //     console.log('cell:', cell, ', ri:', ri, ', ci:', ci);
