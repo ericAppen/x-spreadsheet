@@ -193,6 +193,7 @@ export default class Toolbar {
 
   reset() {
     const { data } = this;
+    console.log("test")
     const style = data.getSelectedCellStyle();
     const cell = data.getSelectedCell();
     // console.log('canUndo:', data.canUndo());

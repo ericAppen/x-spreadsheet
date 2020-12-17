@@ -8,6 +8,7 @@ export default class History {
   }
 
   add(data) {
+    console.log('history add', data)
     this.undoItems.push(JSON.stringify(data));
     if (this.undoItems.length > this.maxHistory) this.undoItems.shift();
     this.redoItems = [];

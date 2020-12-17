@@ -437,7 +437,7 @@ export default class DataProxy {
 
   pasteFromText(txt) {
     const lines = txt.split('\r\n').map(it => it.replace(/"/g, '').split('\t'));
-    if (lines.length > 0) lines.length -= 1;
+    //if (lines.length > 1) lines.length -= 1;
     const { rows, selector } = this;
     this.changeData(() => {
       rows.paste(lines, selector.range);
@@ -1187,7 +1187,9 @@ export default class DataProxy {
         const [x, y] = expr2xy(d[property]);
         this.freeze = [y, x];
       } else if (property === 'autofilter') {
+        console.log("undo auto")
         this.autoFilter.setData(d[property]);
+        this.resetAutoFilter();
       } else if (d[property] !== undefined) {
         this[property] = d[property];
       }

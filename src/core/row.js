@@ -89,7 +89,7 @@ class Rows {
     return row.cells[ci];
   }
 
-  // what: all | text | format
+  // what: all | text | format | img
   setCell(ri, ci, cell, what = 'all') {
     const row = this.getOrNew(ri);
     if (what === 'all') {
@@ -101,6 +101,8 @@ class Rows {
       row.cells[ci] = row.cells[ci] || {};
       row.cells[ci].style = cell.style;
       if (cell.merge) row.cells[ci].merge = cell.merge;
+    } else if (what === 'img') {
+      // TODO
     }
   }
 

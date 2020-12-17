@@ -322,7 +322,7 @@ function paste(what, evt) {
     sheetReset.call(this);
   } else if (evt) {
     const cdata = evt.clipboardData.getData('text/plain');
-    this.data.pasteFromText(cdata);
+    data.pasteFromText(cdata);
     sheetReset.call(this);
   }
 }
@@ -539,7 +539,7 @@ function toolbarChange(type, value) {
   } else if (type === 'autofilter') {
     // filter
     console.log("add filter")
-    data.historyAdd();
+    //data.historyAdd();
     autofilter.call(this);
   } else if (type === 'freeze') {
     if (value) {
@@ -697,7 +697,7 @@ function sheetInitEvents() {
   });
 
   bind(window, 'paste', (evt) => {
-    console.log("paste")
+    console.log("paste");
     paste.call(this, 'all', evt);
     evt.preventDefault();
   });
@@ -741,11 +741,6 @@ function sheetInitEvents() {
           // ctrl + u
           toolbar.trigger('underline');
           evt.preventDefault();
-          break;
-        case 86:
-          // ctrl + v
-          // => paste
-          // evt.preventDefault();
           break;
         case 37:
           // ctrl + left

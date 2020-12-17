@@ -5,5 +5,7 @@ export default class Autofilter extends ToggleItem {
     super('autofilter');
   }
 
-  setState() {}
+  setState(active) {
+    this.el.active(active);
+  }
 }

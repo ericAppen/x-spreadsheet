@@ -63,13 +63,21 @@ export default class AutoFilter {
   }
 
   setData({ ref, filters, sort }) {
+    console.log(ref, filters, sort)
     if (ref != null) {
       this.ref = ref;
       this.filters = filters.map(it => new Filter(it.ci, it.operator, it.value));
       if (sort) {
         this.sort = new Sort(sort.ci, sort.order);
+      } else {
+        this.sort = null;
       }
+    } else {
+      this.ref = null;
+      this.filters = [];
+      this.sort = null;
     }
+    console.log(this.sort, this.filters, this.ref)
   }
 
   getData() {

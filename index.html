@@ -11,7 +11,8 @@
   <div ondblclick="console.log('dom dbclick')">
     <p>test</p>
   </div>
-  <textarea></textarea>
+  <input type="file" accept=".jpg,.png" id="img-upload">
+  <img src="" alt="" id="img">
   <script>
     function load() {
       //x_spreadsheet.locale('zh-cn');
@@ -42,6 +43,16 @@
       //   }).on('cell-edited', (text, ri, ci) => {
       //     console.log('text:', text, ', ri: ', ri, ', ci:', ci);
       //   });
+      var image = document.getElementById("img");
+      document.getElementById("img-upload").addEventListener('change', e => {
+        var file = e.target.files[0];
+        console.log(file)
+        var reader = new FileReader();
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+          img.src = reader.result;
+        };
+      })
     }
   </script>
   <!--script type="text/javascript" src="https://unpkg.com/x-data-spreadsheet@1.0.20/dist/locale/zh-cn.js"></script-->

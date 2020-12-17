@@ -138,8 +138,8 @@ export default class Toolbar {
       [
         this.fullScreenEl = new FullScreen(),
         this.saveEl = new Save(),
-        this.exportEl = new Export()
-      ]
+        this.exportEl = new Export(),
+      ],
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
